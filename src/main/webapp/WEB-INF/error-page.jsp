@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>ERROR</title>
+   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <jsp:include page="header.jsp" />

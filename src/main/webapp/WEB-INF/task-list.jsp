@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>task review</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <jsp:include page="header.jsp" />
 <table border="1">

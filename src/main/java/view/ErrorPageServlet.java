@@ -14,9 +14,8 @@ public class ErrorPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/add-task.jsp");
-        System.out.println(req.getAttribute("id"));
-        System.out.println(req.getParameter("id"));
+        resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/add-task-info.jsp");
         rd.forward(req, resp);
     }
 }

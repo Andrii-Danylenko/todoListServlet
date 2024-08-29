@@ -2,6 +2,7 @@ package view;
 
 import controller.dao.TaskDAO;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,11 +16,17 @@ import java.io.IOException;
 
 @WebServlet("/create-task")
 public class AddTaskServlet extends HttpServlet {
-    private static final TaskDAO dao = TaskDAO.getInstance();
+    private static TaskDAO dao;
+
+    @Override
+    public void init(ServletConfig config) {
+        dao = TaskDAO.getInstance();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/add-task.jsp");
+        req.setAttribute("lastId", Task.getIncrementator().getCurrentId());
         dispatcher.forward(req, resp);
     }
 

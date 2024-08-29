@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>task review</title>
 </head>
-<p><a href="/home">HOME </a>| <a href="/create-task">ADD NEW TASK </a> | <a href="/tasks-list">REVIEW ALL TASKS </a></p>
+<jsp:include page="header.jsp" />
 <table border="1">
     <thead>
     <tr>
@@ -28,12 +28,7 @@
         <td><%=task.getPriority()%></td>
         <td><a href="/read-task?id=<%=task.getId()%>">READ</a></td>
         <td><a href="/edit-task?id=<%=task.getId()%>">EDIT</a></td>
-        <td>
-            <form action="/delete-task" method="post" style="display:inline;">
-                <input type="hidden" name="id" value="<%= task.getId() %>">
-                <input type="submit" value="DELETE">
-            </form>
-        </td>
+        <td><a href="/delete-task?id=<%=task.getId()%>">DELETE</a></td>
     </tr>
     <%
         }

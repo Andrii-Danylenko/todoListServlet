@@ -3,10 +3,7 @@ package controller.dao;
 import model.Task;
 import model.enums.Priorities;
 
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class TaskDAO implements DAO<Task> {
     private final LinkedHashSet<Task> tasks = new LinkedHashSet<>();
@@ -41,8 +38,7 @@ public class TaskDAO implements DAO<Task> {
             return true;
         }
         else {
-            System.out.println("Cannot delete task!");
-            return false;
+            throw new RuntimeException("No such user found!");
         }
     }
 
@@ -71,22 +67,22 @@ public class TaskDAO implements DAO<Task> {
         }
         return false;
     }
-
+    @Override
+    public boolean deleteById(int id) {
+      return tasks.removeIf(task -> task.getId() == id);
+    }
     public boolean tryAdd(Task task) {
         if (tasks.contains(task)) {
             return false;
         }
         else {
-            task.setId(task.getIncrementator().incrementAndSet());
+            task.setId(Task.getIncrementator().incrementAndSet());
             return add(task);
         }
     }
 
     public boolean updateTask(Task taskToUpdate, int id, String name, Priorities priority) {
         for (Task task : tasks) {
-            if (task.getId() != id && task.getName().equals(name)) {
-                return false;
-            }
             if (task.equals(taskToUpdate)) {
                 task.setId(id);
                 task.setName(name);

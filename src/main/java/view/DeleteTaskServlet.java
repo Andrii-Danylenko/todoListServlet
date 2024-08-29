@@ -1,6 +1,7 @@
 package view;
 
 
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,30 +16,40 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Task;
 
 import java.io.IOException;
 
 @WebServlet("/delete-task")
 public class DeleteTaskServlet extends HttpServlet {
-    private static final TaskDAO dao = TaskDAO.getInstance();
+    private static TaskDAO dao;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void init(ServletConfig config) {
+        dao = TaskDAO.getInstance();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String taskIdStr = req.getParameter("id");
         if (taskIdStr != null) {
             try {
                 int taskId = Integer.parseInt(taskIdStr);
-                boolean success = dao.delete(dao.getById(taskId));
-                if (success) {
-                    resp.sendRedirect(req.getContextPath() + "/tasks-list");
-                } else {
-                    resp.sendRedirect(req.getContextPath() + "/error.jsp?message=Task%20not%20found");
+                System.out.println(taskId);
+                boolean success = dao.deleteById(taskId);
+                if (success) resp.sendRedirect(req.getContextPath() + "/tasks-list");
+                else {
+                    req.setAttribute("error_type", "Cannot delete entity because task with provided id '%s' not found!".formatted(taskIdStr));
+                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    req.getRequestDispatcher("/WEB-INF/error-page.jsp").forward(req, resp);
                 }
-            } catch (NumberFormatException e) {
-                resp.sendRedirect(req.getContextPath() + "/error.jsp?message=Invalid%20task%20ID");
+            } catch (NumberFormatException exception) {
+                req.setAttribute("error_type", "Cannot delete entity because provided id '%s' is not a number!".formatted(taskIdStr));
+                req.getRequestDispatcher("/WEB-INF/error-page.jsp").forward(req, resp);
             }
         } else {
-            resp.sendRedirect(req.getContextPath() + "/error.jsp?message=Task%20ID%20is%20required");
+            req.setAttribute("error_type", "Provided id is null!");
+            req.getRequestDispatcher("/WEB-INF/error-page.jsp").forward(req, resp);
         }
     }
 }

@@ -2,6 +2,7 @@ package view;
 
 import controller.dao.TaskDAO;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +14,12 @@ import model.enums.Priorities;
 import java.io.IOException;
 @WebServlet("/edit-task")
 public class EditTaskServlet extends HttpServlet {
-    private static final TaskDAO dao = TaskDAO.getInstance();
+    private static TaskDAO dao;
+
+    @Override
+    public void init(ServletConfig config) {
+        dao = TaskDAO.getInstance();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,9 +28,13 @@ public class EditTaskServlet extends HttpServlet {
             rd = req.getRequestDispatcher("/WEB-INF/edit-task.jsp");
             req.setAttribute("task", dao.getById(Integer.parseInt(req.getParameter("id"))));
             rd.forward(req, resp);
-        } catch (RuntimeException exception) {
+        } catch (NumberFormatException exception) {
             rd = req.getRequestDispatcher("/WEB-INF/error-page.jsp");
-            req.setAttribute("id", req.getParameter("id"));
+            req.setAttribute("error_type", "'%s' is not a valid number!".formatted(req.getParameter("id")));
+            rd.forward(req, resp);
+        } catch (RuntimeException exception) {
+            req.setAttribute("error_type", "Task with ID '%s' not found in TODO list!".formatted(req.getParameter("id")));
+            rd = req.getRequestDispatcher("/WEB-INF/error-page.jsp");
             System.out.println(req.getParameter("id"));
             rd.forward(req, resp);
         }
@@ -52,17 +62,21 @@ public class EditTaskServlet extends HttpServlet {
             int updatedId = Integer.parseInt(taskId);
 
             boolean updated = dao.updateTask(taskToReplace, updatedId, taskName, Priorities.getPriorityFromString(priorityParam));
-
             if (updated) {
                 resp.sendRedirect(req.getContextPath() + "/tasks-list");
             } else {
-                req.setAttribute("error", "Failed to update task");
+                req.setAttribute("error_type", "Failed to update task. Please, use another.");
                 req.setAttribute("task", taskToReplace);
                 req.getRequestDispatcher("/WEB-INF/edit-task.jsp").forward(req, resp);
             }
-        } catch (RuntimeException e) {
-            req.setAttribute("error", "Invalid data or task ID");
-            req.getRequestDispatcher("/WEB-INF/error-page.jsp").forward(req, resp);
+        } catch (NumberFormatException exception) {
+            RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/error-page.jsp");
+            req.setAttribute("error_type", "'%s' is not a valid number!".formatted(req.getParameter("id")));
+            rd.forward(req, resp);
+        } catch (RuntimeException exception) {
+            req.setAttribute("error_type", "Task with ID '%s' not found in TODO list!".formatted(req.getParameter("id")));
+            RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/error-page.jsp");
+            rd.forward(req, resp);
         }
     }
 }

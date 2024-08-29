@@ -8,12 +8,12 @@
     <title>Add New Task</title>
 </head>
 <body>
-<p><a href="/home">HOME</a> | <a href="/create-task">ADD NEW TASK</a> | <a href="/tasks-list">REVIEW ALL TASKS</a></p>
-
+<jsp:include page="header.jsp" />
 <%
     String errorType = (String) request.getAttribute("error");
     String success = (String) request.getAttribute("success");
     String taskName = (String) request.getAttribute("taskName");
+    Integer currentId = (Integer) request.getAttribute("lastId");
 %>
 
 <% if ("duplicate".equals(errorType)) { %>
@@ -24,7 +24,7 @@
 
 <form method="post">
     <label>Task name:
-        <input type="text" name="taskName" value="<%= taskName != null ? taskName : "" %>" placeholder="myTask_1">
+        <input type="text" name="taskName" value="<%= taskName != null ? taskName : "myTask_" + currentId%>" placeholder="myTask_<%=currentId%>">
     </label>
     <br>
 

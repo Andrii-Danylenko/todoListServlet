@@ -4,7 +4,7 @@ import model.enums.Priorities;
 
 import java.util.Objects;
 
-public class Task {
+public class Task implements Comparable<Task> {
     private static final Incrementator incrementator = new Incrementator();
     private int id;
     private String name;
@@ -14,7 +14,6 @@ public class Task {
         this.name = name;
         this.priority = priority;
     }
-
     public String getName() {
         return name;
     }
@@ -33,9 +32,6 @@ public class Task {
 
     public int getId() {
         return id;
-    }
-    public Incrementator getIncrementator() {
-        return incrementator;
     }
     public void setId(int id) {
         this.id = id;
@@ -56,5 +52,14 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public int compareTo(Task o) {
+        if (this.equals(o)) return 0;
+        return Integer.compare(id, o.id);
+    }
+    public static Incrementator getIncrementator() {
+        return incrementator;
     }
 }

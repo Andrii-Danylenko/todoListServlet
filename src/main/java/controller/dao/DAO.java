@@ -10,4 +10,6 @@ public interface DAO<T> {
     boolean deleteByName(String name);
 
     T getById(int id);
+
+    boolean deleteById(int id);
 }

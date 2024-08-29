@@ -6,16 +6,19 @@
     <title>Add New Task</title>
 </head>
 <body>
-<p><a href="/home">HOME</a> | <a href="/create-task">ADD NEW TASK</a> | <a href="/tasks-list">REVIEW ALL TASKS</a></p>
+<%
+Task task = ((Task) request.getAttribute("task"));
+%>
+<jsp:include page="header.jsp" />
 <h1>Edit existing task</h1>
 <br>
 <form method="post">
     <label>Task id:
-        <input type="text" name="taskId" value="<%=((Task) request.getAttribute("task")).getId()%>">
+        <input type="text" name="taskId" value="<%=task.getId()%>" disabled>
     </label>
     <br>
     <label>Task name:
-        <input type="text" name="taskName" value="<%=((Task) request.getAttribute("task")).getName()%>">
+        <input type="text" name="taskName" value="<%=task.getName()%>">
     </label>
     <br>
     <label for="priority">Priority:</label>
@@ -25,6 +28,16 @@
         <option value="high">HIGH</option>
     </select>
     <br>
+    <%
+    String errorType =  request.getParameter("error_type");
+    System.out.println(errorType);
+    if (errorType != null && !errorType.isEmpty()) {
+    %>
+    <p style='color:red;'><%=errorType%></p>
+    <%
+        }
+    %>
+
 
     <button name="update" type="submit">UPDATE</button>
 </form>

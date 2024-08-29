@@ -4,8 +4,8 @@
     <title>ERROR</title>
 </head>
 <body>
-<p><a href="/home">HOME</a> | <a href="/create-task">ADD NEW TASK</a> | <a href="/tasks-list">REVIEW ALL TASKS</a></p>
+<jsp:include page="header.jsp" />
 
-<h1>Task with ID '<%=request.getParameter("id")%>' not found in TODO list!</h1>
+<h1><%=request.getAttribute("error_type")%></h1>
 </body>
 </html>

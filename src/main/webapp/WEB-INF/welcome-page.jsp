@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Hello world!</title>
 </head>
-<p><a href="/home">HOME </a>| <a href="/create-task">ADD NEW TASK </a> | <a href="/tasks-list">REVIEW ALL TASKS </a></p>
+<jsp:include page="header.jsp" />
 <h1>HELLO AND WELCOME TO OUR PRETTY (NOT YET) TASK MANAGER</h1>
 <p>I want to be beautiful. Add some css, pls</p>
 <body>

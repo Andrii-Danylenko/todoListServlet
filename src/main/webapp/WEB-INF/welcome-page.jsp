@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello world!</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <jsp:include page="header.jsp" />
 <h1>HELLO AND WELCOME TO OUR PRETTY (NOT YET) TASK MANAGER</h1>

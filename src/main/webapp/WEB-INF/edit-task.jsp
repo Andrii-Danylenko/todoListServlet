@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add New Task</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <%

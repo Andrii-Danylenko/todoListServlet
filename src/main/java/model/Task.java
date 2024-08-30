@@ -1,16 +1,16 @@
 package model;
 
-import model.enums.Priorities;
+import model.enums.Priority;
 
 import java.util.Objects;
 
-public class Task implements Comparable<Task> {
+public class Task {
     private static final Incrementator incrementator = new Incrementator();
     private int id;
     private String name;
-    private Priorities priority;
+    private Priority priority;
 
-    public Task(String name, Priorities priority) {
+    public Task(String name, Priority priority) {
         this.name = name;
         this.priority = priority;
     }
@@ -22,11 +22,11 @@ public class Task implements Comparable<Task> {
         this.name = name;
     }
 
-    public Priorities getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(Priorities priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
@@ -54,11 +54,6 @@ public class Task implements Comparable<Task> {
         return Objects.hash(name);
     }
 
-    @Override
-    public int compareTo(Task o) {
-        if (this.equals(o)) return 0;
-        return Integer.compare(id, o.id);
-    }
     public static Incrementator getIncrementator() {
         return incrementator;
     }

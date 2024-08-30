@@ -1,6 +1,6 @@
-package view;
+package controller;
 
-import controller.dao.TaskDAO;
+import repository.TaskDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;

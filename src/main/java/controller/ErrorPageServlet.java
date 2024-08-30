@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -9,12 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/home")
-public class HomePageServlet extends HttpServlet {
+@WebServlet("/error")
+public class ErrorPageServlet extends HttpServlet {
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/welcome-page.jsp");
         rd.forward(req, resp);
     }
 }
-

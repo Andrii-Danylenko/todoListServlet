@@ -2,9 +2,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>ERROR</title>
+    <title>Task Info</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
+<div class="container">
 <%
     Task task = (Task) request.getAttribute("task");
 %>
@@ -15,5 +17,6 @@
 <p>Id: <%=task.getId()%></p>
 <p>Title: <%=task.getName()%></p>
 <p>Priority: <%=task.getPriority()%></p>
+</div>
 </body>
 </html>

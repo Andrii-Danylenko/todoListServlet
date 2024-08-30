@@ -6,22 +6,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Add New Task</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
+<div class="container">
 <jsp:include page="header.jsp" />
 <%
-    String errorType = (String) request.getAttribute("error");
-    String success = (String) request.getAttribute("success");
+    int responseCode = response.getStatus();
     String taskName = (String) request.getAttribute("taskName");
     Integer currentId = (Integer) request.getAttribute("lastId");
 %>
-
-<% if ("duplicate".equals(errorType)) { %>
-<p style='color:red;'>Task with the given name already exists! Please, use another name or delete the existing task!</p>
-<% } else if ("true".equals(success)) { %>
-<p style='color:green;'>Task added successfully!</p>
-<% } %>
 
 <form method="post">
     <label>Task name:
@@ -38,10 +32,14 @@
     <br>
 
     <button name="addTask" type="submit">ADD TASK</button>
-
-    <% if ("duplicate".equals(errorType)) { %>
+        <% if (responseCode == HttpServletResponse.SC_CREATED) { %>
+    <p style='color:green;'>Task added successfully!</p>
+    <%   }
+    else if (responseCode == HttpServletResponse.SC_CONFLICT) { %>
     <button name="clear" type="submit">REMOVE DUPLICATE</button>
+    <p style='color:red;'>Task with the given name already exists! Please, use another name or delete the existing task!</p>
     <% } %>
 </form>
+</div>
 </body>
 </html>

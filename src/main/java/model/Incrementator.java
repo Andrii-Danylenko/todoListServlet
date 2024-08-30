@@ -1,13 +1,15 @@
 package model;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Incrementator {
 
-    private int currentId = 1;
-    public int incrementAndSet() {
-        return currentId++;
+    private final AtomicInteger currentId = new AtomicInteger(1);
+    public synchronized int incrementAndGet() {
+        return currentId.getAndIncrement();
     }
 
-    public int getCurrentId() {
-        return currentId;
+    public synchronized int getCurrentId() {
+        return currentId.get();
     }
 }

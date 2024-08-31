@@ -42,7 +42,7 @@ public class AddTaskServlet extends HttpServlet {
                 return;
             } else if (priorityParam != null) {
                 Task task = new Task(taskName, Priority.getPriorityFromString(priorityParam));
-                if (dao.tryAdd(task)) {
+                if (dao.add(task)) {
                     resp.setStatus(HttpServletResponse.SC_CREATED);
                 } else {
                     resp.setStatus(HttpServletResponse.SC_CONFLICT);

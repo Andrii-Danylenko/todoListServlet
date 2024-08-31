@@ -21,13 +21,12 @@ public class TaskDAO implements DAO<Task> {
 
     @Override
     public boolean add(Task value) {
-        if (tasks.add(value)) {
-            System.out.println("Successfully added task!");
-            return true;
+        if (tasks.contains(value)) {
+            return false;
         }
         else {
-            System.out.println("Cannot add task!");
-            return false;
+            value.setId(Task.getIncrementator().incrementAndGet());
+            return tasks.add(value);
         }
     }
 
@@ -70,15 +69,6 @@ public class TaskDAO implements DAO<Task> {
     @Override
     public boolean deleteById(int id) {
       return tasks.removeIf(task -> task.getId() == id);
-    }
-    public boolean tryAdd(Task task) {
-        if (tasks.contains(task)) {
-            return false;
-        }
-        else {
-            task.setId(Task.getIncrementator().incrementAndGet());
-            return add(task);
-        }
     }
 
     public boolean updateTask(Task taskToUpdate, String name, Priority priority) {

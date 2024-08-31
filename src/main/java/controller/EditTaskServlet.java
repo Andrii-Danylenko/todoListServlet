@@ -70,10 +70,12 @@ public class EditTaskServlet extends HttpServlet {
         } catch (NumberFormatException exception) {
             RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/error-page.jsp");
             req.setAttribute("error_type", "'%s' is not a valid number!".formatted(req.getParameter("id")));
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             rd.forward(req, resp);
         } catch (RuntimeException exception) {
             req.setAttribute("error_type", "Task with ID '%s' not found in TODO list!".formatted(req.getParameter("id")));
             RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/error-page.jsp");
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             rd.forward(req, resp);
         }
     }
